@@ -1,19 +1,29 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 
 // components
 import NavBar from "@/ui/dashboard/navbar/NavBar";
 import SideBar from "@/ui/dashboard/sidebar/SideBar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className="flex flex-col lg:flex-row h-screen">
+    <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="lg:w-[250px] xl:w-[300px] lg:block hidden bg-blue-700">
-        <SideBar />
-      </div>
+      <SideBar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 ${
+          isSidebarOpen ? "ml-64" : "ml-0"
+        } lg:ml-0`}
+      >
         {/* Navbar */}
         <div className="sticky top-0 z-10 bg-white shadow-md">
           <NavBar />
